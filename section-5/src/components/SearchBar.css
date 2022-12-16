@@ -1,0 +1,16 @@
+.search-bar {
+  display: flex;
+  justify-content: center;
+}
+.search-input {
+  width: 100%;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
