@@ -1,19 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BookCreate from './BookCreate';
 import BookList from './BookList';
+import { createBook, editBookById, fetchBooks, removeBookById } from '../helpers/api';
+
+/* 
+    *useEffect (react-hook)
+    Функция предоставляемая React.
+    Первым аргументом всегда принает коллбек () => {}.
+    Который будет выполняться в определённое время, которое мы можем определить
+    используя второй аргумент.
+    Второй аргумент - это массив зависимостей.
+    У него есть сразу несколько настроек:
+    1) Вообще не указывать массив зависимостей. Тогда колл-бек отработает при первом рендеринге компонента
+       и его последующих перерендерах.
+    2) [] Пустой массив зависимстей - Колл-бек выполниться только при первом рендере компонента.
+    3) [someDepedencies] - Колл-бек будет выполняться в случае, если изменится одна из указанных зависимостей.
+    4) [] with cleanup fn. Пустой массив, но теперь колл-бек должен вернуть функцию очистки.
+       Используется для отписки от событий.
+       Пример:
+       useEffect(() => {
+          variable.addEventListener('click', () => {}).
+
+          return () => {
+            variable.removeEventListener('click', () => {})
+          }
+       })
+*/
 
 const App = () => {
   const [books, setBooks] = useState([]);
 
-  const addBook = (newBook) => {
-    const id = books.length + 1;
-    setBooks([...books, { id, title: newBook }]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await fetchBooks();
+        setBooks(data);
+      } catch (error) {
+        throw new Error(error);
+      }
+    })()
+  }, [])
+
+  const addBook = async (newBook) => {
+    const data = await createBook({ title: newBook });
+    setBooks([...books, data]);
   }
 
-  const changeBook = (id, title) => {
+  const changeBook = async (id, title) => {
+    const data = await editBookById(id, { title });
     const newBooksList = books.map(book => {
-      if (book.id === id) {
-        return { ...book, title }
+      if (book.id === data.id) {
+        return data;
       };
       return book;
     });
@@ -21,7 +58,8 @@ const App = () => {
     setBooks(newBooksList);
   }
 
-  const deleteBook = (id) => {
+  const deleteBook = async (id) => {
+    await removeBookById(id);
     setBooks(books.filter(book => book.id !== id));
   }
 
