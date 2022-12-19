@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import BookCreate from './BookCreate';
 import BookList from './BookList';
-import { createBook, editBookById, fetchBooks, removeBookById } from '../helpers/api';
 
 /* 
     *useEffect (react-hook)
@@ -28,46 +27,11 @@ import { createBook, editBookById, fetchBooks, removeBookById } from '../helpers
 */
 
 const App = () => {
-  const [books, setBooks] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await fetchBooks();
-        setBooks(data);
-      } catch (error) {
-        throw new Error(error);
-      }
-    })()
-  }, [])
-
-  const addBook = async (newBook) => {
-    const data = await createBook({ title: newBook });
-    setBooks([...books, data]);
-  }
-
-  const changeBook = async (id, title) => {
-    const data = await editBookById(id, { title });
-    const newBooksList = books.map(book => {
-      if (book.id === data.id) {
-        return data;
-      };
-      return book;
-    });
-
-    setBooks(newBooksList);
-  }
-
-  const deleteBook = async (id) => {
-    await removeBookById(id);
-    setBooks(books.filter(book => book.id !== id));
-  }
-
   return (
     <div className='app'>
       <h1>Reading List</h1>
-      <BookList books={books} deleteBook={deleteBook} changeBook={changeBook} />
-      <BookCreate addBook={addBook} />
+      <BookList />
+      <BookCreate />
     </div>
   );
 }

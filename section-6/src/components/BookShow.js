@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { BooksContext } from '../context/BookContext';
 import BookEdit from "./BookEdit";
 
-const BookShow = ({ book, deleteBook, changeBook }) => {
+const BookShow = ({ book }) => {
   const [showInput, setShowInput] = useState(false);
+  const { deleteBook, changeBook } = useContext(BooksContext);
 
   const randomCover = `https://picsum.photos/seed/${book.id}/300/200`;
 
