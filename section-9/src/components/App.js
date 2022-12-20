@@ -1,5 +1,4 @@
-import Button from "./Button";
-import { GoBell } from 'react-icons/go'
+import Accordion from "./Accordion";
 
 /* 
     *React Hooks
@@ -22,26 +21,27 @@ import { GoBell } from 'react-icons/go'
 */
 
 const App = () => {
+  const items = [
+    {
+      id: 1,
+      label: "Can i use React on a project?",
+      content: "You can use React on any project you want"
+    },
+    {
+      id: 2,
+      label: "Can i use JavaScript on a project?",
+      content: "You can use JavaScript on any project you want"
+    },
+    {
+      id: 3,
+      label: "Can i use CSS on a project?",
+      content: "You can use CSS on any project you want"
+    },
+  ]
+
   return (
     <div>
-      <div>
-        <Button outline primary rounded onClick={() => console.log('Click')} onMouseEnter={() => console.log("Hover")}>
-          <GoBell />
-          Order
-        </Button>
-        <Button outline secondary rounded >
-          Order
-        </Button>
-        <Button outline warning rounded >
-          Order
-        </Button>
-        <Button outline success rounded >
-          Order
-        </Button>
-        <Button outline danger rounded >
-          Order
-        </Button>
-      </div>
+      <Accordion items={items} />
     </div>
   );
 }

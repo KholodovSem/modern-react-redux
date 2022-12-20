@@ -12,7 +12,7 @@ import className from 'classnames';
     2) Background-color 
 
     *Text
-    1) Text color (common)
+    1) Text color 
 */
 
 
