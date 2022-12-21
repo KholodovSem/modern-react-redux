@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import Dropdown from "./Dropdown";
+import Route from './Route';
+import SideBar from './SideBar';
+import DropdownPage from '../pages/DropdownPage';
+import AccordionPage from '../pages/AccordionPage';
+import ButtonPage from '../pages/ButtonPage';
 
 /* 
     *React Hooks
@@ -22,30 +25,20 @@ import Dropdown from "./Dropdown";
 */
 
 const App = () => {
-  const [selection, setSelection] = useState(null);
-
-  const handleSelect = (select) => {
-    setSelection(select);
-  }
-
-  const options = [
-    {
-      label: 'Red',
-      value: 'red'
-    },
-    {
-      label: 'Green',
-      value: 'green'
-    },
-    {
-      label: 'Blue',
-      value: 'blue'
-    },
-  ]
-
   return (
-    <div>
-      <Dropdown options={options} value={selection} onChange={handleSelect} />
+    <div className='container mx-auto grid grid-cols-6 gap-4 mt-4'>
+      <SideBar />
+      <div className='col-span-5'>
+        <Route path='/'>
+          <DropdownPage />
+        </Route>
+        <Route path='/accordion'>
+          <AccordionPage />
+        </Route>
+        <Route path='/button'>
+          <ButtonPage />
+        </Route>
+      </div>
     </div>)
 }
 
