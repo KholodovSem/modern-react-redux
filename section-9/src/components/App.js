@@ -3,6 +3,7 @@ import SideBar from './SideBar';
 import DropdownPage from '../pages/DropdownPage';
 import AccordionPage from '../pages/AccordionPage';
 import ButtonPage from '../pages/ButtonPage';
+import ModalPage from '../pages/ModalPage';
 
 /* 
     *React Hooks
@@ -37,6 +38,9 @@ const App = () => {
         </Route>
         <Route path='/button'>
           <ButtonPage />
+        </Route>
+        <Route path='/modal'>
+          <ModalPage />
         </Route>
       </div>
     </div>)
