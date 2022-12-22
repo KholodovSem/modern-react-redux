@@ -27,7 +27,11 @@ const SideBar = () => {
     {
       label: 'Modal',
       path: '/modal'
-    }
+    },
+    {
+      label: 'Table',
+      path: '/table'
+    },
   ];
 
   const mapContent = links.map(({ label, path }) =>
