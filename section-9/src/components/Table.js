@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 /* 
     What we need to create reusable table component? 
 
@@ -12,13 +10,23 @@ import { useState, useEffect } from 'react';
     7) Cells can display arbitary data
 */
 
+/* 
+    Sorted fn
+
+    Click on score header:
+
+    Unsorted ==> Ascending on Score ==> Descending on Score (and repeat this cycle)
+*/
+
 const Table = ({ data, config, keyFn }) => {
+  const theadContent = config.map(column => {
+    if (column.header) {
+      return { ...column.header(), key: column.header().props.children[0] };
+    }
 
-  const theadContent = config.map(column =>
-    <th key={column.label}>{column.label}</th>
+    return <th key={column.label}>{column.label}</th>
+  }
   );
-
-
 
   const tbodyContent = data.map(rowData => {
     const cells = config.map((column) => {
