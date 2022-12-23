@@ -30,19 +30,134 @@
     9) Rename returned properties to something more descriptive 
 */
 
-import useCounter from '../hooks/useCounter';
+/* 
+      * useReducer hook
+      Является альтернативой useState.
+      Нужен для того чтобы делать динамические компоненты.
+
+      Может быть полезен, когда у нас есть несколько кусочков 
+      состояния тесно связанных между собой.
+
+      Данный хук первым аргументом принимает аргумент (reducer): 
+      функция - настройка, которая объясняет как работать с состоянием
+      в том или ином случае.
+
+      reducer = (state, action) => {}
+      С помощью switch перебирем варианты.
+      Всегда возвращает новый объект - state.
+      Не забываем распылить предедущее состояние, только после этого
+      вносим правки - при работе в свиче с экшенами.
+
+      action - объект, который всегда содержит свойство "type" -
+      оно описывает что мы хотим сделать, 
+      и не всегда содержит "payload" - полезная нагрузка
+
+      Вторым аргументом принимает начальное состояние.
+
+      Возращает массив, первым значением которого является - state (состояние).
+      Вторым значением функция, которая доставляет action до редюсера (dispatch).
+
+      !Immer 
+      Библиотека, которая уже встроена в Redux Toolkit.
+      Позволяет изменять состояние в редюсере напрямую (мутируя), без 
+      предварительного расспыления.
+      Она все делает под капотом.
+*/
+
+import { useReducer } from 'react';
 import Button from '../components/Button';
+import Panel from '../components/Panel';
+
+const INCREMENT_COUNT = "increment-count";
+const DECREMENT_COUNT = "decrement-count";
+const ADD_VALUE_TO_COUNT = "add-value-to-count";
+const CHANGE_VALUE_TO_ADD = "change-value";
+
+const reducer = (state, { type, payload }) => {
+   switch (type) {
+      case INCREMENT_COUNT: {
+         return {
+            ...state,
+            count: state.count + 1
+         }
+      }
+
+      case DECREMENT_COUNT: {
+         return {
+            ...state,
+            count: state.count - 1
+         }
+      }
+
+      case ADD_VALUE_TO_COUNT: {
+         return {
+            ...state,
+            count: state.count + state.valueToAdd,
+            valueToAdd: 0
+         }
+      }
+
+      case CHANGE_VALUE_TO_ADD: {
+         return {
+            ...state,
+            valueToAdd: payload
+         }
+      }
+
+      default:
+         return state;
+   }
+}
 
 const CounterPage = ({ initialCount }) => {
-  const [count, increment] = useCounter(initialCount)
+   const [state, dispatch] = useReducer(reducer, {
+      count: initialCount,
+      valueToAdd: 0
+   })
 
-  return (
-    <div>
-      <h1>Count is {count}</h1>
-      <Button onClick={increment} primary>
-        Increment
-      </Button>
-    </div>)
+   const onIncrement = () => {
+      dispatch({ type: INCREMENT_COUNT })
+   }
+
+   const onDecrement = () => {
+      dispatch({ type: DECREMENT_COUNT })
+   }
+
+   const handleChange = (e) => {
+      const value = parseFloat(e.currentTarget.value) || 0;
+
+      dispatch({ type: CHANGE_VALUE_TO_ADD, payload: value })
+   }
+
+   const handleSubmit = (e) => {
+      e.preventDefault();
+
+      dispatch({ type: ADD_VALUE_TO_COUNT })
+   }
+
+   return (
+      <Panel className="m-3">
+         <h1 className='text-lg'>Count is {state.count}</h1>
+         <div className='flex flex-row'>
+            <Button onClick={onIncrement} primary>
+               Increment
+            </Button>
+            <Button onClick={onDecrement} primary>
+               Decrement
+            </Button>
+         </div>
+
+         <form>
+            <label>Add a lot!</label>
+            <input
+               className='p-1 m-3 bg-gray-50 border border-gray-300'
+               type={"number"}
+               value={state.valueToAdd || ""}
+               onChange={handleChange}
+            />
+            <Button primary onClick={handleSubmit}>Add it!</Button>
+         </form>
+      </Panel>)
 };
 
 export default CounterPage;
