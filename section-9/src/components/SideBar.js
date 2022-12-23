@@ -32,6 +32,10 @@ const SideBar = () => {
       label: 'Table',
       path: '/table'
     },
+    {
+      label: 'Counter',
+      path: '/counter'
+    },
   ];
 
   const mapContent = links.map(({ label, path }) =>
