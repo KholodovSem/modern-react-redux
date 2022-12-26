@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "name": "Cody Kirlin",
+      "id": 4
+    }
+  ],
+  "albums": [
+    {
+      "userId": 4,
+      "title": "Awesome Rubber Hat",
+      "id": 16
+    },
+    {
+      "userId": 4,
+      "title": "Ergonomic Plastic Sausages",
+      "id": 17
+    }
+  ],
+  "photos": [
+    {
+      "albumId": 16,
+      "url": "https://loremflickr.com/150/150/abstract?lock=90001",
+      "id": 1
+    }
+  ]
+}
